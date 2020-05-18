@@ -12,7 +12,7 @@ import org.koin.core.qualifier.qualifier
 import ru.terrakok.cicerone.Router
 import ru.ttk.beacon.R
 import ru.ttk.beacon.ui.navigation.RouterType
-import ru.ttk.beacon.ui.navigation.Screen
+import ru.ttk.beacon.ui.navigation.Screens
 import ru.ttk.beacon.ui.utils.BleHelper
 
 class PermissionsNotGrantedFragment : Fragment(R.layout.fragment_permissions_not_granted) {
@@ -38,9 +38,7 @@ class PermissionsNotGrantedFragment : Fragment(R.layout.fragment_permissions_not
 
     override fun onResume() {
         super.onResume()
-        if (helper.isPermissionsGranted) {
-            router.newRootScreen(Screen.BeaconList)
-        }
+        tryOpenBeaconListScreen()
     }
 
     override fun onRequestPermissionsResult(
@@ -58,7 +56,17 @@ class PermissionsNotGrantedFragment : Fragment(R.layout.fragment_permissions_not
                 startActivity(intent)
             }
         } else {
-            router.newRootScreen(Screen.BeaconList)
+            tryOpenBeaconListScreen()
+        }
+    }
+
+    private fun tryOpenBeaconListScreen() {
+        if (helper.isPermissionsGranted) {
+            if (!helper.isBluetoothEnabled) {
+                router.newRootScreen(Screens.BluetoothDisabled)
+            } else {
+                router.newRootScreen(Screens.BeaconList)
+            }
         }
     }
 

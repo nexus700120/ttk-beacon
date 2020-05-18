@@ -4,18 +4,23 @@ import androidx.fragment.app.Fragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 import ru.ttk.beacon.ui.module.DeviceNotSupportedFragment
 import ru.ttk.beacon.ui.module.PermissionsNotGrantedFragment
+import ru.ttk.beacon.ui.module.bluetooth.BluetoothDisabledFragment
 
-sealed class Screen : SupportAppScreen() {
+sealed class Screens : SupportAppScreen() {
 
-    object PermissionsNotGranted : Screen() {
+    object PermissionsNotGranted : Screens() {
         override fun getFragment() = PermissionsNotGrantedFragment()
     }
 
-    object NotSupported : Screen() {
+    object NotSupported : Screens() {
         override fun getFragment(): Fragment = DeviceNotSupportedFragment()
     }
 
-    object BeaconList : Screen() {
+    object BluetoothDisabled : Screens() {
+        override fun getFragment(): Fragment = BluetoothDisabledFragment()
+    }
+
+    object BeaconList : Screens() {
 
     }
 }

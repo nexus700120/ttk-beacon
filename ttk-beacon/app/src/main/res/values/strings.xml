@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TTK beacon</string>
+    <string name="device_not_supported">This device does not support BLE technology</string>
+    <string name="permissions_not_granted">For properly work with application allow access to your location</string>
+    <string name="allow_access">Allow access</string>
+    <string name="enabled_bluetooth">Enable bluetooth</string>
+    <string name="bluetooth_description">For properly work with application enable bluetooth</string>
+    <string name="unknown_error">Something went wrong</string>
+</resources>

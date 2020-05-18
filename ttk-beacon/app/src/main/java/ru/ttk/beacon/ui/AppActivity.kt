@@ -10,7 +10,7 @@ import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.ttk.beacon.ui.navigation.RouterType.FULL_SCREEN
-import ru.ttk.beacon.ui.navigation.Screen
+import ru.ttk.beacon.ui.navigation.Screens
 import ru.ttk.beacon.ui.utils.BleHelper
 
 class AppActivity : AppCompatActivity() {
@@ -21,18 +21,19 @@ class AppActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            if (!bleHelper.isBleSupportedByDevice) {
-                router.newRootScreen(Screen.NotSupported)
-            } else if (!bleHelper.isPermissionsGranted) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    bleHelper.requiredPermissions,
-                    PERMISSIONS_REQUEST_CODE
-                )
-            } else {
-                router.newRootScreen(Screen.BeaconList)
-            }
+        if (!bleHelper.isBleSupportedByDevice) {
+            router.newRootScreen(Screens.NotSupported)
+        } else if (!bleHelper.isPermissionsGranted) {
+            router.backTo(null)
+            ActivityCompat.requestPermissions(
+                this,
+                bleHelper.requiredPermissions,
+                PERMISSIONS_REQUEST_CODE
+            )
+        } else if (!bleHelper.isBluetoothEnabled) {
+            router.newRootScreen(Screens.BluetoothDisabled)
+        } else if (savedInstanceState == null) {
+            router.newRootScreen(Screens.BeaconList)
         }
     }
 
@@ -49,7 +50,11 @@ class AppActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
-            router.newRootScreen(Screen.PermissionsNotGranted)
+            router.newRootScreen(Screens.PermissionsNotGranted)
+        } else if (!bleHelper.isBluetoothEnabled) {
+            router.newRootScreen(Screens.BluetoothDisabled)
+        } else {
+            router.newRootScreen(Screens.BeaconList)
         }
     }
 

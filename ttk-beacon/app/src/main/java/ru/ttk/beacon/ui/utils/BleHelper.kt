@@ -1,6 +1,7 @@
 package ru.ttk.beacon.ui.utils
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
@@ -24,4 +25,7 @@ class BleHelper(private val context: Context) {
                 add(ACCESS_FINE_LOCATION)
             }
         }.toTypedArray()
+
+    val isBluetoothEnabled: Boolean
+        get() = BluetoothAdapter.getDefaultAdapter()?.isEnabled ?: false
 }
