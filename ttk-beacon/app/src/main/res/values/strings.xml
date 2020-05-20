@@ -12,4 +12,5 @@
     <string name="major">MAJOR:</string>
     <string name="minor">MINOR:</string>
     <string name="rssi">RSSI:</string>
+    <string name="distance">DISTANCE:</string>
 </resources>

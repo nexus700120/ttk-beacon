@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.ttk.beacon.R
 import ru.ttk.beacon.domain.entity.AppleBeacon
-import java.text.DecimalFormat
+import ru.ttk.beacon.ui.common.AppleBeaconFormatter
 
-class AppleBeaconListAdapter : RecyclerView.Adapter<AppleBeaconListAdapter.BeaconViewHolder>() {
+class AppleBeaconListAdapter(
+    private val clickListener: (AppleBeacon) -> Unit
+) : RecyclerView.Adapter<AppleBeaconListAdapter.BeaconViewHolder>() {
 
     private val items = mutableListOf<AppleBeacon>()
 
     fun update(items: List<AppleBeacon>) {
-        val diffCallback = AppleBeaconDiffCallback(this.items, items)
+        val diffCallback = AppleBeaconListDiffCallback(this.items, items)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         this.items.apply {
             clear()
@@ -28,7 +30,9 @@ class AppleBeaconListAdapter : RecyclerView.Adapter<AppleBeaconListAdapter.Beaco
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeaconViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_apple_beacons_list, parent, false)
-        return BeaconViewHolder(view)
+        return BeaconViewHolder(view) {
+            clickListener(items[it])
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -37,7 +41,12 @@ class AppleBeaconListAdapter : RecyclerView.Adapter<AppleBeaconListAdapter.Beaco
         holder.bind(items[position])
     }
 
-    class BeaconViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class BeaconViewHolder(
+        view: View,
+        private val clickListener: (Int) -> Unit
+    ) : RecyclerView.ViewHolder(view) {
+
+        private val formatter = AppleBeaconFormatter()
 
         private val macView = view.findViewById<TextView>(R.id.mac_value)
         private val distanceView = view.findViewById<TextView>(R.id.distance)
@@ -46,19 +55,18 @@ class AppleBeaconListAdapter : RecyclerView.Adapter<AppleBeaconListAdapter.Beaco
         private val minorView = view.findViewById<TextView>(R.id.minor_value)
         private val rssiView = view.findViewById<TextView>(R.id.rssi_value)
 
+        init {
+            itemView.setOnClickListener { clickListener(adapterPosition) }
+        }
+
         @SuppressLint("SetTextI18n")
         fun bind(beacon: AppleBeacon) {
             macView.text = beacon.mac
-            distanceView.text = beacon.distance.toPrettyDistance()
+            distanceView.text = formatter.formatDistance(beacon)
             uuidView.text = beacon.uuid
             majorView.text = beacon.major.toString()
             minorView.text = beacon.minor.toString()
-            rssiView.text = "${beacon.rssi} dbm"
-        }
-
-        private fun Double.toPrettyDistance(): String = buildString {
-            append(DecimalFormat("0.00").format(this@toPrettyDistance))
-            append(" m")
+            rssiView.text = formatter.formatRssi(beacon)
         }
     }
 }

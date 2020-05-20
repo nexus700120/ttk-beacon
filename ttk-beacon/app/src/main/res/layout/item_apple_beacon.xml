@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="4dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/AppleBacon.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/uuid" />
+
+    <TextView
+        android:id="@+id/value"
+        style="@style/AppleBacon.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        tools:text="d80565be-944a-4e19-aae0-732a469ea68d" />
+
+</LinearLayout>

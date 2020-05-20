@@ -9,7 +9,7 @@
         android:id="@+id/emoji"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/emoji_shrug"
+        android:src="@drawable/ic_emoji_shrug"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

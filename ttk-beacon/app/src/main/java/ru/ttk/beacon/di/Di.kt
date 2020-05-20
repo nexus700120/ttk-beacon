@@ -25,10 +25,6 @@ val bluetoothModule = module {
     factory<BluetoothInteractor> { BluetoothInteractorImpl(get()) }
     factory { BluetoothStateObserver(get()) }
     single { BleHelper(get()) }
-    single {
-        BeaconManagerInitializer(get()).initialize()
-    }
-    factory<AppleBeaconScanner> {
-        AppleBeaconScannerImpl(get(), get())
-    }
+    single { BeaconManagerInitializer(get()).initialize() }
+    single<AppleBeaconScanner> { AppleBeaconScannerImpl(get(), get()) }
 }

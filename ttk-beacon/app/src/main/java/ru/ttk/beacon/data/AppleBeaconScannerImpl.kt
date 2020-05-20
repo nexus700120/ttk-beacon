@@ -3,11 +3,13 @@ package ru.ttk.beacon.data
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Handler
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import org.altbeacon.beacon.*
 import ru.ttk.beacon.domain.AppleBeaconScanner
 import ru.ttk.beacon.domain.entity.AppleBeacon
+import ru.ttk.beacon.ui.utils.Optional
 import timber.log.Timber
 import java.util.*
 
@@ -16,7 +18,19 @@ class AppleBeaconScannerImpl(
     private val beaconManager: BeaconManager
 ) : AppleBeaconScanner {
 
+    private val handler = Handler()
+    private val unbindRunnable = Runnable {
+        if (beaconManager.isBound(consumer)) {
+            Timber.d("unbind")
+            beaconManager.unbind(consumer)
+            beaconManager.removeRangeNotifier(notifier)
+            beaconManager.stopRangingBeaconsInRegion(region)
+            beaconsSubject.onNext(emptyList())
+        }
+    }
+
     private val beaconsSubject = BehaviorSubject.createDefault(emptyList<Beacon>())
+
     private val region = Region(UUID.randomUUID().toString(), null, null, null)
     private val notifier = RangeNotifier { beacons, _ ->
         Timber.d("notifier: ${beacons.size}")
@@ -57,17 +71,23 @@ class AppleBeaconScannerImpl(
                 )
             }
     }.doOnSubscribe {
+        handler.removeCallbacksAndMessages(null)
         if (!beaconManager.isBound(consumer)) {
             Timber.d("bind")
             beaconManager.bind(consumer)
         }
     }.doFinally {
         if (!beaconsSubject.hasObservers()) {
-            Timber.d("unbind")
-            beaconManager.unbind(consumer)
-            beaconManager.removeRangeNotifier(notifier)
-            beaconManager.stopRangingBeaconsInRegion(region)
+            handler.removeCallbacksAndMessages(null)
+            handler.postDelayed(unbindRunnable, UNBIND_DELAY)
         }
+    }
+
+    override fun scan(uuid: String): Observable<Optional<AppleBeacon>> =
+        scan().map { Optional.toOptional(it.firstOrNull { beacon -> beacon.uuid == uuid }) }
+
+    companion object {
+        private const val UNBIND_DELAY = 3000L
     }
 }
 

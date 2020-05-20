@@ -3,7 +3,7 @@ package ru.ttk.beacon.ui.module.list
 import androidx.recyclerview.widget.DiffUtil
 import ru.ttk.beacon.domain.entity.AppleBeacon
 
-class AppleBeaconDiffCallback(
+class AppleBeaconListDiffCallback(
     private val old: List<AppleBeacon>,
     private val new: List<AppleBeacon>
 ) : DiffUtil.Callback() {
