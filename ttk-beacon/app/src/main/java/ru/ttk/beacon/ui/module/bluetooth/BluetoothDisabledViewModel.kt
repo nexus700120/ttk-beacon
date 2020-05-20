@@ -6,15 +6,18 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import ru.terrakok.cicerone.Router
 import ru.ttk.beacon.ui.common.RxViewModel
 import ru.ttk.beacon.ui.common.bluetooth.BluetoothState
 import ru.ttk.beacon.ui.common.bluetooth.BluetoothStateObserver
+import ru.ttk.beacon.ui.navigation.Screens
 import ru.ttk.beacon.ui.utils.livedata.UnitEvent
 import timber.log.Timber
 
 class BluetoothDisabledViewModel(
     private val bluetoothInteractor: BluetoothInteractor,
-    private val bluetoothStateObserver: BluetoothStateObserver
+    private val bluetoothStateObserver: BluetoothStateObserver,
+    private val router: Router
 ) : RxViewModel() {
 
     private val _showProgress = MutableLiveData<Boolean>()
@@ -55,6 +58,7 @@ class BluetoothDisabledViewModel(
         if (!beaconListScreenOpened) {
             beaconListScreenOpened = true
             Timber.d("Opening beacon list screen")
+            router.newRootScreen(Screens.BeaconList)
         }
     }
 }

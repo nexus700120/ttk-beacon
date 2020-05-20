@@ -6,4 +6,10 @@
     <string name="enabled_bluetooth">Enable bluetooth</string>
     <string name="bluetooth_description">For properly work with application enable bluetooth</string>
     <string name="unknown_error">Something went wrong</string>
+    <string name="scanning">Scanning…</string>
+    <string name="uuid">UUID:</string>
+    <string name="mac">MAC:</string>
+    <string name="major">MAJOR:</string>
+    <string name="minor">MINOR:</string>
+    <string name="rssi">RSSI:</string>
 </resources>

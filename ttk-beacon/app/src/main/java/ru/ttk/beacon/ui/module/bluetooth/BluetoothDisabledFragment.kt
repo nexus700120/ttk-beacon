@@ -8,15 +8,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.get
+import org.koin.core.qualifier.qualifier
 import ru.ttk.beacon.R
-import ru.ttk.beacon.ui.common.bluetooth.BluetoothStateObserver
+import ru.ttk.beacon.ui.navigation.RouterType
 import ru.ttk.beacon.ui.utils.livedata.observeEvent
 import ru.ttk.beacon.ui.utils.viewModelFactory
 
 class BluetoothDisabledFragment : Fragment(R.layout.fragment_bluetooth_disabled) {
 
     private val viewModel by viewModels<BluetoothDisabledViewModel> {
-        viewModelFactory { BluetoothDisabledViewModel(get(), get()) }
+        viewModelFactory {
+            BluetoothDisabledViewModel(
+                bluetoothInteractor = get(),
+                bluetoothStateObserver = get(),
+                router = get(RouterType.FULL_SCREEN.qualifier)
+            )
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

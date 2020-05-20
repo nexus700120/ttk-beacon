@@ -5,4 +5,17 @@
         <item name="colorAccent">@color/grey_200</item>
         <item name="android:windowBackground">@color/blue_grey_900</item>
     </style>
+
+    <style name="AppleBacon.Title" parent="@android:style/TextAppearance.Material">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grey_200</item>
+    </style>
+
+    <style name="AppleBacon.Value" parent="@android:style/TextAppearance.Material">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/grey_200</item>
+        <item name="singleLine">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
 </resources>

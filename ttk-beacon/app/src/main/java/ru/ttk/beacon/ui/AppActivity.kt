@@ -20,17 +20,25 @@ class AppActivity : AppCompatActivity() {
     private val router by inject<Router>(FULL_SCREEN.qualifier)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (!bleHelper.isBleSupportedByDevice) {
+        val isBleSupported = bleHelper.isBleSupportedByDevice
+        val isPermissionGranted = bleHelper.isPermissionsGranted
+        val isBluetoothEnabled = bleHelper.isBluetoothEnabled
+
+        if (!isBleSupported || !isPermissionGranted || !isBluetoothEnabled) {
+            super.onCreate(null)
+        } else {
+            super.onCreate(savedInstanceState)
+        }
+
+        if (!isBleSupported) {
             router.newRootScreen(Screens.NotSupported)
-        } else if (!bleHelper.isPermissionsGranted) {
-            router.backTo(null)
+        } else if (!isPermissionGranted) {
             ActivityCompat.requestPermissions(
                 this,
                 bleHelper.requiredPermissions,
                 PERMISSIONS_REQUEST_CODE
             )
-        } else if (!bleHelper.isBluetoothEnabled) {
+        } else if (!isBluetoothEnabled) {
             router.newRootScreen(Screens.BluetoothDisabled)
         } else if (savedInstanceState == null) {
             router.newRootScreen(Screens.BeaconList)
