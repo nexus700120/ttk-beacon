@@ -6,6 +6,7 @@ import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
+import ru.ttk.beacon.BuildConfig
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
@@ -38,12 +39,16 @@ class BleRawScanner {
         }
 
         override fun onScanResult(callbackType: Int, result: ScanResult) {
-            Timber.d("onScanResult: ${result.device.address}")
+            if (BuildConfig.DEBUG) {
+                Timber.d("onScanResult: ${result.device.address}")
+            }
             subject.onNext(result)
         }
 
         override fun onBatchScanResults(results: MutableList<ScanResult>) {
-            Timber.d("onBatchScanResults: ${results.joinToString { it.device.address }}")
+            if (BuildConfig.DEBUG) {
+                Timber.d("onBatchScanResults: ${results.joinToString { it.device.address }}")
+            }
             results.forEach { subject.onNext(it) }
         }
     }

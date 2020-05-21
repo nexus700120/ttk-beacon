@@ -11,7 +11,7 @@ interface BluetoothInteractor {
     fun enableBluetooth(): Completable
 }
 
-class BluetoothInteractorImpl(private val appContext: Context) : BluetoothInteractor {
+class BluetoothInteractorImpl : BluetoothInteractor {
 
     override fun enableBluetooth(): Completable {
         val adapter = BluetoothAdapter.getDefaultAdapter()
