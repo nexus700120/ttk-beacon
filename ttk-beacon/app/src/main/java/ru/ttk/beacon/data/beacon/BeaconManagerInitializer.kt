@@ -1,4 +1,4 @@
-package ru.ttk.beacon.data
+package ru.ttk.beacon.data.beacon
 
 import android.content.Context
 import org.altbeacon.beacon.BeaconManager

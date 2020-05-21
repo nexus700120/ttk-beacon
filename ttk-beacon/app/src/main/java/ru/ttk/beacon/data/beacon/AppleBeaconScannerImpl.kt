@@ -1,4 +1,4 @@
-package ru.ttk.beacon.data
+package ru.ttk.beacon.data.beacon
 
 import android.content.Context
 import android.content.Intent
@@ -83,8 +83,8 @@ class AppleBeaconScannerImpl(
         }
     }
 
-    override fun scan(uuid: String): Observable<Optional<AppleBeacon>> =
-        scan().map { Optional.toOptional(it.firstOrNull { beacon -> beacon.uuid == uuid }) }
+    override fun scan(mac: String): Observable<Optional<AppleBeacon>> =
+        scan().map { Optional.toOptional(it.firstOrNull { beacon -> beacon.uuid == mac }) }
 
     companion object {
         private const val UNBIND_DELAY = 3000L

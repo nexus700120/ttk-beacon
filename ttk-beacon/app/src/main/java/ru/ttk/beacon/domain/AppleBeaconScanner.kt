@@ -8,5 +8,5 @@ interface AppleBeaconScanner {
 
     fun scan(): Observable<List<AppleBeacon>>
 
-    fun scan(uuid: String): Observable<Optional<AppleBeacon>>
+    fun scan(mac: String): Observable<Optional<AppleBeacon>>
 }

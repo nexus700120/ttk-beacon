@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.module.detail
+package ru.ttk.beacon.ui.module.apple.detail
 
 import android.os.Parcel
 import android.os.Parcelable

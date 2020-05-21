@@ -1,17 +1,14 @@
-package ru.ttk.beacon.ui.module.detail
+package ru.ttk.beacon.ui.module.apple.detail
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -19,7 +16,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.get
 import ru.ttk.beacon.R
 import ru.ttk.beacon.domain.entity.AppleBeacon
-import ru.ttk.beacon.ui.module.list.AppleBeaconListViewModel
 import ru.ttk.beacon.ui.utils.viewModelFactory
 
 class AppleBeaconBottomSheet : BottomSheetDialogFragment() {

@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.module.list
+package ru.ttk.beacon.ui.module.apple.list
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
