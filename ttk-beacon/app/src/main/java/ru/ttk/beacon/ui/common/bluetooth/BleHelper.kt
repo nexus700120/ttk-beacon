@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.utils
+package ru.ttk.beacon.ui.common.bluetooth
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.bluetooth.BluetoothAdapter

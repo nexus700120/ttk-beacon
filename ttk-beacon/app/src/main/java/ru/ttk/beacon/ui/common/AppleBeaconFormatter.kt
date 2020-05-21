@@ -3,7 +3,7 @@ package ru.ttk.beacon.ui.common
 import ru.ttk.beacon.domain.entity.AppleBeacon
 import java.text.DecimalFormat
 
-class AppleBeaconFormatter {
+object AppleBeaconFormatter {
 
     private val distanceFormat = DecimalFormat("0.00")
 

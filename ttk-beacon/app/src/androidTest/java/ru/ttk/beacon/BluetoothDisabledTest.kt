@@ -17,10 +17,10 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import org.koin.test.mock.declare
 import ru.ttk.beacon.ui.AppActivity
-import ru.ttk.beacon.ui.common.bluetooth.BluetoothState
-import ru.ttk.beacon.ui.common.bluetooth.BluetoothStateObserver
+import ru.ttk.beacon.ui.common.bluetooth.stateobserver.BluetoothState
+import ru.ttk.beacon.ui.common.bluetooth.stateobserver.BluetoothStateObserver
 import ru.ttk.beacon.ui.module.bluetooth.BluetoothInteractor
-import ru.ttk.beacon.ui.utils.BleHelper
+import ru.ttk.beacon.ui.common.bluetooth.BleHelper
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 

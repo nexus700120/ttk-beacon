@@ -11,7 +11,7 @@ import org.junit.Test
 import org.koin.test.KoinTest
 import org.koin.test.mock.declare
 import ru.ttk.beacon.ui.AppActivity
-import ru.ttk.beacon.ui.utils.BleHelper
+import ru.ttk.beacon.ui.common.bluetooth.BleHelper
 
 class BleNotSupportedTest : KoinTest {
 

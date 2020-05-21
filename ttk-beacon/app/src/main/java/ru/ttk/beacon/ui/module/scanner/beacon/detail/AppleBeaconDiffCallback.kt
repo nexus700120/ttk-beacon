@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.module.apple.detail
+package ru.ttk.beacon.ui.module.scanner.beacon.detail
 
 import androidx.recyclerview.widget.DiffUtil
 

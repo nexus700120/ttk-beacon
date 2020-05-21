@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.module.apple.list
+package ru.ttk.beacon.ui.module.scanner.beacon.list
 
 import androidx.recyclerview.widget.DiffUtil
 import ru.ttk.beacon.domain.entity.AppleBeacon

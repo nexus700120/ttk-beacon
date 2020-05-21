@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.common.bluetooth
+package ru.ttk.beacon.ui.common.bluetooth.stateobserver
 
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
@@ -19,7 +19,6 @@ class BluetoothStateObserver(private val appContext: Context) {
         appContext.registerReceiver(receiver, IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED))
         return subject.distinctUntilChanged()
             .doFinally { appContext.unregisterReceiver(receiver) }
-
     }
 
     private class BluetoothBroadCastReceiver(private val callback: (BluetoothState) -> Unit) : BroadcastReceiver() {

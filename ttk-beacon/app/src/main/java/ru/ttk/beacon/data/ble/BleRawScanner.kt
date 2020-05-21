@@ -1,4 +1,4 @@
-package ru.ttk.beacon.data
+package ru.ttk.beacon.data.ble
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.ScanCallback

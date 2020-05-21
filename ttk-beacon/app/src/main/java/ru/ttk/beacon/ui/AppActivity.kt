@@ -11,7 +11,7 @@ import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.ttk.beacon.ui.navigation.RouterType.FULL_SCREEN
 import ru.ttk.beacon.ui.navigation.Screens
-import ru.ttk.beacon.ui.utils.BleHelper
+import ru.ttk.beacon.ui.common.bluetooth.BleHelper
 
 class AppActivity : AppCompatActivity() {
 

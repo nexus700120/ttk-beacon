@@ -8,8 +8,8 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.terrakok.cicerone.Router
 import ru.ttk.beacon.ui.common.RxViewModel
-import ru.ttk.beacon.ui.common.bluetooth.BluetoothState
-import ru.ttk.beacon.ui.common.bluetooth.BluetoothStateObserver
+import ru.ttk.beacon.ui.common.bluetooth.stateobserver.BluetoothState
+import ru.ttk.beacon.ui.common.bluetooth.stateobserver.BluetoothStateObserver
 import ru.ttk.beacon.ui.navigation.Screens
 import ru.ttk.beacon.ui.utils.livedata.UnitEvent
 import timber.log.Timber

@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.module.apple.list
+package ru.ttk.beacon.ui.module.scanner.beacon.list
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import org.koin.android.ext.android.get
 import ru.ttk.beacon.R
 import ru.ttk.beacon.domain.entity.AppleBeacon
-import ru.ttk.beacon.ui.module.apple.detail.AppleBeaconBottomSheet
+import ru.ttk.beacon.ui.module.scanner.beacon.detail.AppleBeaconBottomSheet
 import ru.ttk.beacon.ui.utils.viewModelFactory
 
 class AppleBeaconListFragment : Fragment(R.layout.fragment_apple_beacons) {

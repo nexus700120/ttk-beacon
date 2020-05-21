@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.module.apple.list
+package ru.ttk.beacon.ui.module.scanner.beacon.list
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.ttk.beacon.R
 import ru.ttk.beacon.domain.entity.AppleBeacon
-import ru.ttk.beacon.ui.common.AppleBeaconFormatter
+import ru.ttk.beacon.ui.common.AppleBeaconFormatter.formatDistance
+import ru.ttk.beacon.ui.common.AppleBeaconFormatter.formatRssi
 
 class AppleBeaconListAdapter(
     private val clickListener: (AppleBeacon) -> Unit
@@ -46,8 +47,6 @@ class AppleBeaconListAdapter(
         private val clickListener: (Int) -> Unit
     ) : RecyclerView.ViewHolder(view) {
 
-        private val formatter = AppleBeaconFormatter()
-
         private val macView = view.findViewById<TextView>(R.id.mac_value)
         private val distanceView = view.findViewById<TextView>(R.id.distance)
         private val uuidView = view.findViewById<TextView>(R.id.uuid_value)
@@ -62,11 +61,11 @@ class AppleBeaconListAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(beacon: AppleBeacon) {
             macView.text = beacon.mac
-            distanceView.text = formatter.formatDistance(beacon)
+            distanceView.text = formatDistance(beacon)
             uuidView.text = beacon.uuid
             majorView.text = beacon.major.toString()
             minorView.text = beacon.minor.toString()
-            rssiView.text = formatter.formatRssi(beacon)
+            rssiView.text = formatRssi(beacon)
         }
     }
 }

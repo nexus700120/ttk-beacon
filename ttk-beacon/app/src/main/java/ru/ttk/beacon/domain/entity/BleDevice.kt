@@ -4,7 +4,6 @@ class BleDevice(
     val mac: String,
     val rssi: Int
 ) {
-
     override fun toString(): String = buildString {
         append("BleDevice(")
         append("mac=$mac,")

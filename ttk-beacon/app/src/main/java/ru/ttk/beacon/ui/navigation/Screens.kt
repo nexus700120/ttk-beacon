@@ -5,7 +5,7 @@ import ru.terrakok.cicerone.android.support.SupportAppScreen
 import ru.ttk.beacon.ui.module.DeviceNotSupportedFragment
 import ru.ttk.beacon.ui.module.PermissionsNotGrantedFragment
 import ru.ttk.beacon.ui.module.bluetooth.BluetoothDisabledFragment
-import ru.ttk.beacon.ui.module.apple.list.AppleBeaconListFragment
+import ru.ttk.beacon.ui.module.scanner.beacon.list.AppleBeaconListFragment
 
 sealed class Screens : SupportAppScreen() {
 

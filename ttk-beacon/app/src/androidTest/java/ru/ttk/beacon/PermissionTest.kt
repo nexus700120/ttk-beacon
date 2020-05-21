@@ -22,7 +22,7 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import org.koin.test.mock.declare
 import ru.ttk.beacon.ui.AppActivity
-import ru.ttk.beacon.ui.utils.BleHelper
+import ru.ttk.beacon.ui.common.bluetooth.BleHelper
 
 class PermissionTest : KoinTest {
 
@@ -94,7 +94,6 @@ class PermissionTest : KoinTest {
             assertTrue(device.wait(Until.hasObject(settingCondition), WAIT_TIMEOUT))
         }
     }
-
 
     companion object {
         private const val WAIT_TIMEOUT = 5000L

@@ -1,4 +1,4 @@
-package ru.ttk.beacon.ui.common.bluetooth
+package ru.ttk.beacon.ui.common.bluetooth.stateobserver
 
 enum class BluetoothState {
     UNAVAILABLE,

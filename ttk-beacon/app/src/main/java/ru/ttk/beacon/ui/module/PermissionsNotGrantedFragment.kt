@@ -13,7 +13,7 @@ import ru.terrakok.cicerone.Router
 import ru.ttk.beacon.R
 import ru.ttk.beacon.ui.navigation.RouterType
 import ru.ttk.beacon.ui.navigation.Screens
-import ru.ttk.beacon.ui.utils.BleHelper
+import ru.ttk.beacon.ui.common.bluetooth.BleHelper
 
 class PermissionsNotGrantedFragment : Fragment(R.layout.fragment_permissions_not_granted) {
 
