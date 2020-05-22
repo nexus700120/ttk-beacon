@@ -64,8 +64,8 @@ class AppleBeaconBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onStop() {
-        viewModel.onStop()
         super.onStop()
+        viewModel.onStop()
     }
 
     companion object {

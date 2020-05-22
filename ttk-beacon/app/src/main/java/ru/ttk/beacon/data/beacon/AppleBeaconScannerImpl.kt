@@ -26,7 +26,7 @@ class AppleBeaconScannerImpl(
                         distance = calculator.calculateDistance(packet.txPower, scanResult.rssi)
                     )
                 }
-            }.sortedWith(compareBy({ beacon -> beacon.distance }, { beacon -> beacon.mac }))
+            }
         }
         .publish()
         .refCount()

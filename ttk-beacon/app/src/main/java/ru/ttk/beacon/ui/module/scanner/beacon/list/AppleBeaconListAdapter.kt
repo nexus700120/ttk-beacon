@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.ttk.beacon.R
 import ru.ttk.beacon.domain.entity.AppleBeacon
-import ru.ttk.beacon.ui.common.AppleBeaconFormatter.formatDistance
-import ru.ttk.beacon.ui.common.AppleBeaconFormatter.formatRssi
+import ru.ttk.beacon.ui.common.BlePropsFormatter.formatDistance
+import ru.ttk.beacon.ui.common.BlePropsFormatter.formatRssi
 
 class AppleBeaconListAdapter(
     private val clickListener: (AppleBeacon) -> Unit
@@ -61,11 +61,11 @@ class AppleBeaconListAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(beacon: AppleBeacon) {
             macView.text = beacon.mac
-            distanceView.text = formatDistance(beacon)
+            distanceView.text = formatDistance(beacon.distance)
             uuidView.text = beacon.uuid
             majorView.text = beacon.major.toString()
             minorView.text = beacon.minor.toString()
-            rssiView.text = formatRssi(beacon)
+            rssiView.text = formatRssi(beacon.rssi)
         }
     }
 }

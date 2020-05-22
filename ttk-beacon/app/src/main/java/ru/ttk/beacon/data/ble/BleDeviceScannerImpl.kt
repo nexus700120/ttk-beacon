@@ -8,7 +8,11 @@ class BleDeviceScannerImpl(private val bleRawScanner: BleRawScanner) : BleDevice
 
     override fun scan(): Observable<List<BleDevice>> = bleRawScanner.scan()
         .map { list ->
-            list.map { BleDevice(mac = it.device.address, rssi = it.rssi) }
-                .sortedBy { it.mac }
+            list.map {
+                BleDevice(
+                    mac = it.device.address,
+                    rssi = it.rssi
+                )
+            }
         }
 }

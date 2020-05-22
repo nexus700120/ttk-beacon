@@ -6,6 +6,7 @@ import ru.ttk.beacon.ui.module.DeviceNotSupportedFragment
 import ru.ttk.beacon.ui.module.PermissionsNotGrantedFragment
 import ru.ttk.beacon.ui.module.bluetooth.BluetoothDisabledFragment
 import ru.ttk.beacon.ui.module.scanner.beacon.list.AppleBeaconListFragment
+import ru.ttk.beacon.ui.module.scanner.ble.BleDeviceListFragment
 
 sealed class Screens : SupportAppScreen() {
 
@@ -22,6 +23,6 @@ sealed class Screens : SupportAppScreen() {
     }
 
     object BeaconList : Screens() {
-        override fun getFragment(): Fragment = AppleBeaconListFragment()
+        override fun getFragment(): Fragment = BleDeviceListFragment()
     }
 }

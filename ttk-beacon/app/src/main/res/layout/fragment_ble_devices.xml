@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:itemCount="3"
-        tools:listitem="@layout/item_apple_beacons_list" />
+        tools:listitem="@layout/item_ble_device_list" />
 
     <TextView
         android:id="@+id/scanning"

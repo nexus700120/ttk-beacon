@@ -22,6 +22,10 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="BleDevice.Title" parent="@style/AppleBacon.Title" />
+
+    <style name="BleDevice.Value" parent="@style/AppleBacon.Value" />
+
     <style name="BottomSheet" parent="@style/Theme.Design.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
         <item name="android:windowIsFloating">false</item>

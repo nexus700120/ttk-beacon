@@ -67,8 +67,8 @@ class BleRawScanner {
             }
         }.doFinally {
             if (isScannerStarted.get() && !subject.hasObservers()) {
-                isScannerStarted.set(false)
                 Timber.d("Stop scanning")
+                isScannerStarted.set(false)
                 leScanner.stopScan(scanCallback)
             }
         }

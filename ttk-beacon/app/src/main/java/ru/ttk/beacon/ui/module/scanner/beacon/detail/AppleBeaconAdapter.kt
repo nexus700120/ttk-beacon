@@ -9,9 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.ttk.beacon.R
 import ru.ttk.beacon.domain.entity.AppleBeacon
-import ru.ttk.beacon.ui.common.AppleBeaconFormatter
-import ru.ttk.beacon.ui.common.AppleBeaconFormatter.formatDistance
-import ru.ttk.beacon.ui.common.AppleBeaconFormatter.formatRssi
+import ru.ttk.beacon.ui.common.BlePropsFormatter.formatDistance
+import ru.ttk.beacon.ui.common.BlePropsFormatter.formatRssi
 
 class AppleBeaconAdapter(private val context: Context) : RecyclerView.Adapter<AppleBeaconAdapter.RowViewHolder>() {
 
@@ -23,8 +22,8 @@ class AppleBeaconAdapter(private val context: Context) : RecyclerView.Adapter<Ap
             context.getString(R.string.uuid) to (beacon?.uuid ?: UNKNOWN),
             context.getString(R.string.major) to (beacon?.major?.toString() ?: UNKNOWN),
             context.getString(R.string.minor) to (beacon?.minor?.toString() ?: UNKNOWN),
-            context.getString(R.string.rssi) to (beacon?.let { formatRssi(it) } ?: UNKNOWN),
-            context.getString(R.string.distance) to (beacon?.let { formatDistance(it) } ?: UNKNOWN)
+            context.getString(R.string.rssi) to (beacon?.let { formatRssi(it.rssi) } ?: UNKNOWN),
+            context.getString(R.string.distance) to (beacon?.let { formatDistance(it.distance) } ?: UNKNOWN)
         )
         val diffCallback = AppleBeaconDiffCallback(items, newItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
