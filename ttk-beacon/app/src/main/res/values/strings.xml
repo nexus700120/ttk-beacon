@@ -13,4 +13,6 @@
     <string name="minor">MINOR:</string>
     <string name="rssi">RSSI:</string>
     <string name="distance">DISTANCE:</string>
+    <string name="devices">Devices</string>
+    <string name="beacons">Beacons</string>
 </resources>

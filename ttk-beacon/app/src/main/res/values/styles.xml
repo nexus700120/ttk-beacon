@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/blue_grey_900</item>
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
         <item name="colorAccent">@color/grey_200</item>
@@ -33,7 +33,16 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="BottomSheetStyle" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="BottomNavigation" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="elevation">0dp</item>
+        <item name="itemTextColor">@color/bottom_navigation_item</item>
+        <item name="itemIconTint">@color/bottom_navigation_item</item>
+        <item name="itemRippleColor">@color/grey_200_alpha_10</item>
+    </style>
+
 </resources>

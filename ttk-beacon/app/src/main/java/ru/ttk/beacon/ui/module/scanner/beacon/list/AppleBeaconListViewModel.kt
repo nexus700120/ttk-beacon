@@ -18,7 +18,7 @@ class AppleBeaconListViewModel(private val scanner: AppleBeaconScanner) : RxView
     private val _beacons = MutableLiveData<List<AppleBeacon>>()
     val beacons: LiveData<List<AppleBeacon>> = _beacons
 
-    fun onStart() {
+    fun onResume() {
         disposable = scanner.scan()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())
@@ -30,7 +30,7 @@ class AppleBeaconListViewModel(private val scanner: AppleBeaconScanner) : RxView
             )
     }
 
-    fun onStop() {
+    fun onPause() {
         disposable?.dispose()
     }
 }

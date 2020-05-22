@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.koin.android.ext.android.get
 import ru.ttk.beacon.R
-import ru.ttk.beacon.ui.module.scanner.beacon.list.AppleBeaconListViewModel
 import ru.ttk.beacon.ui.utils.viewModelFactory
+import timber.log.Timber
 
 class BleDeviceListFragment : Fragment(R.layout.fragment_ble_devices) {
 
@@ -47,13 +47,13 @@ class BleDeviceListFragment : Fragment(R.layout.fragment_ble_devices) {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.onStart()
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.onStop()
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
     }
 }

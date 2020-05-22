@@ -65,7 +65,7 @@ class PermissionsNotGrantedFragment : Fragment(R.layout.fragment_permissions_not
             if (!helper.isBluetoothEnabled) {
                 router.newRootScreen(Screens.BluetoothDisabled)
             } else {
-                router.newRootScreen(Screens.BeaconList)
+                router.newRootScreen(Screens.Scanner)
             }
         }
     }

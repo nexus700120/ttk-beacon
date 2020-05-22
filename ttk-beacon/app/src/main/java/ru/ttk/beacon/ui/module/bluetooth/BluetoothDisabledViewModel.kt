@@ -58,7 +58,7 @@ class BluetoothDisabledViewModel(
         if (!beaconListScreenOpened) {
             beaconListScreenOpened = true
             Timber.d("Opening beacon list screen")
-            router.newRootScreen(Screens.BeaconList)
+            router.newRootScreen(Screens.Scanner)
         }
     }
 }

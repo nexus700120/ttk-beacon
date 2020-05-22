@@ -52,13 +52,13 @@ class AppleBeaconListFragment : Fragment(R.layout.fragment_apple_beacons) {
         AppleBeaconBottomSheet.show(parentFragmentManager, beacon)
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.onStart()
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.onStop()
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
     }
 }

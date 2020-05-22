@@ -41,7 +41,7 @@ class AppActivity : AppCompatActivity() {
         } else if (!isBluetoothEnabled) {
             router.newRootScreen(Screens.BluetoothDisabled)
         } else if (savedInstanceState == null) {
-            router.newRootScreen(Screens.BeaconList)
+            router.newRootScreen(Screens.Scanner)
         }
     }
 
@@ -62,7 +62,7 @@ class AppActivity : AppCompatActivity() {
         } else if (!bleHelper.isBluetoothEnabled) {
             router.newRootScreen(Screens.BluetoothDisabled)
         } else {
-            router.newRootScreen(Screens.BeaconList)
+            router.newRootScreen(Screens.Scanner)
         }
     }
 

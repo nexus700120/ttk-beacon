@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
+import android.os.Handler
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
 import ru.ttk.beacon.BuildConfig
@@ -22,8 +23,18 @@ class BleRawScanner {
         .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
         .build()
 
-    private val subject = PublishSubject.create<ScanResult>().toSerialized()
+    private val handler = Handler()
+    private val isStopScanScheduled = AtomicBoolean(false)
     private val isScannerStarted = AtomicBoolean(false)
+
+    private val stopScanRunnable = Runnable {
+        Timber.d("Stop scanning")
+        isStopScanScheduled.set(false)
+        isScannerStarted.set(false)
+        leScanner.stopScan(scanCallback)
+    }
+
+    private val subject = PublishSubject.create<ScanResult>().toSerialized()
 
     private val scanCallback = object : ScanCallback() {
 
@@ -60,16 +71,21 @@ class BleRawScanner {
         .replay(1)
         .refCount()
         .doOnSubscribe {
+            if (isStopScanScheduled.get()) {
+                Timber.d("Delayed stop canceled")
+                handler.removeCallbacksAndMessages(null)
+                isStopScanScheduled.set(false)
+            }
             if (!isScannerStarted.get()) {
                 Timber.d("Start scanning")
                 isScannerStarted.set(true)
                 leScanner.startScan(listOf(), scanSettings, scanCallback)
             }
         }.doFinally {
-            if (isScannerStarted.get() && !subject.hasObservers()) {
-                Timber.d("Stop scanning")
-                isScannerStarted.set(false)
-                leScanner.stopScan(scanCallback)
+            if (isScannerStarted.get() && !subject.hasObservers() && !isStopScanScheduled.get()) {
+                Timber.d("Delayed stop scanning")
+                isStopScanScheduled.set(true)
+                handler.postDelayed(stopScanRunnable, STOP_SCAN_DELAY)
             }
         }
 
@@ -78,5 +94,6 @@ class BleRawScanner {
     companion object {
         @Suppress("SpellCheckingInspection")
         private const val BUFFER_TIMESPAN = 2L
+        private const val STOP_SCAN_DELAY = 3000L
     }
 }

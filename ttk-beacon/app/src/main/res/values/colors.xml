@@ -3,5 +3,6 @@
     <color name="blue_grey_900">#232931</color>
     <color name="blue_grey_800">#393E46</color>
     <color name="grey_200">#EEEEEE</color>
+    <color name="grey_200_alpha_10">#1AEEEEEE</color>
     <color name="cyan_600">#00ADB5</color>
 </resources>

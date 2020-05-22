@@ -20,7 +20,7 @@ class BleDeviceListViewModel(
 
     private var disposable: Disposable? = null
 
-    fun onStart() {
+    fun onResume() {
         disposable = bleDeviceScanner.scan()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())
@@ -32,7 +32,7 @@ class BleDeviceListViewModel(
             )
     }
 
-    fun onStop() {
+    fun onPause() {
         disposable?.dispose()
     }
 }
