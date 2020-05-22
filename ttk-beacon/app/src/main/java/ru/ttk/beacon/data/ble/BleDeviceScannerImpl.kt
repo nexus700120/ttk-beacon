@@ -3,7 +3,6 @@ package ru.ttk.beacon.data.ble
 import io.reactivex.rxjava3.core.Observable
 import ru.ttk.beacon.domain.BleDeviceScanner
 import ru.ttk.beacon.domain.entity.BleDevice
-import timber.log.Timber
 
 class BleDeviceScannerImpl(private val bleRawScanner: BleRawScanner) : BleDeviceScanner {
 
@@ -11,6 +10,7 @@ class BleDeviceScannerImpl(private val bleRawScanner: BleRawScanner) : BleDevice
         .map { list ->
             list.map {
                 BleDevice(
+                    name = it.scanRecord?.deviceName,
                     mac = it.device.address,
                     rssi = it.rssi
                 )

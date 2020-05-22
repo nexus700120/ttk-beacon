@@ -3,7 +3,6 @@ package ru.ttk.beacon.ui.module.scanner.beacon.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.ttk.beacon.domain.AppleBeaconScanner
@@ -23,19 +22,12 @@ class AppleBeaconViewModel(
     }
     val beacon: LiveData<Optional<AppleBeacon>> = _beacon
 
-    private var disposable: Disposable? = null
-
-    fun onStart() {
-        disposable = scanner.scan(initialBeacon.mac)
+    override fun onResume() {
+        super.onResume()
+        scanner.scan(initialBeacon.mac)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onNext = { _beacon.value = it },
-                onError = { Timber.e(it) }
-            )
-    }
-
-    fun onStop() {
-        disposable?.dispose()
+            .subscribeBy(onNext = { _beacon.value = it }, onError = { Timber.e(it) })
+            .unsubscribeOnPause()
     }
 }

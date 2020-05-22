@@ -3,7 +3,6 @@ package ru.ttk.beacon.ui.module.bluetooth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.terrakok.cicerone.Router
@@ -26,7 +25,6 @@ class BluetoothDisabledViewModel(
     private val _showError = MutableLiveData<UnitEvent>()
     val showError: LiveData<UnitEvent> = _showError
 
-    private var stateDisposable: Disposable? = null
     private var beaconListScreenOpened = false
 
     fun enableBluetooth() {
@@ -41,17 +39,15 @@ class BluetoothDisabledViewModel(
                     Timber.e(it)
                     _showError.value = UnitEvent()
                 })
-            .bindToLifeCycle()
+            .unsubscribeOnCleared()
     }
 
-    fun onForeground() {
-        stateDisposable = bluetoothStateObserver.observe()
+    override fun onResume() {
+        super.onResume()
+        bluetoothStateObserver.observe()
             .filter { it == BluetoothState.ON }
             .subscribeBy { openBeaconList() }
-    }
-
-    fun onBackground() {
-        stateDisposable?.dispose()
+            .unsubscribeOnPause()
     }
 
     private fun openBeaconList() {

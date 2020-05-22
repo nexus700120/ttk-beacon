@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,14 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.koin.android.ext.android.get
 import ru.ttk.beacon.R
-import ru.ttk.beacon.ui.utils.viewModelFactory
-import timber.log.Timber
+import ru.ttk.beacon.ui.utils.lifecycleViewModel
 
 class BleDeviceListFragment : Fragment(R.layout.fragment_ble_devices) {
 
-    private val viewModel by viewModels<BleDeviceListViewModel> {
-        viewModelFactory { BleDeviceListViewModel(get()) }
-    }
+    private val viewModel by lifecycleViewModel { BleDeviceListViewModel(get()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,15 +41,5 @@ class BleDeviceListFragment : Fragment(R.layout.fragment_ble_devices) {
             scanning.isInvisible = it.isNotEmpty()
             adapter.update(it)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.onPause()
     }
 }

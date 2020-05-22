@@ -4,26 +4,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.get
 import org.koin.core.qualifier.qualifier
 import ru.ttk.beacon.R
 import ru.ttk.beacon.ui.navigation.RouterType
+import ru.ttk.beacon.ui.utils.lifecycleViewModel
 import ru.ttk.beacon.ui.utils.livedata.observeEvent
-import ru.ttk.beacon.ui.utils.viewModelFactory
 
 class BluetoothDisabledFragment : Fragment(R.layout.fragment_bluetooth_disabled) {
 
-    private val viewModel by viewModels<BluetoothDisabledViewModel> {
-        viewModelFactory {
-            BluetoothDisabledViewModel(
-                bluetoothInteractor = get(),
-                bluetoothStateObserver = get(),
-                router = get(RouterType.FULL_SCREEN.qualifier)
-            )
-        }
+    private val viewModel by lifecycleViewModel {
+        BluetoothDisabledViewModel(
+            bluetoothInteractor = get(),
+            bluetoothStateObserver = get(),
+            router = get(RouterType.FULL_SCREEN.qualifier)
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,15 +38,5 @@ class BluetoothDisabledFragment : Fragment(R.layout.fragment_bluetooth_disabled)
         viewModel.showError.observeEvent(viewLifecycleOwner) {
             Snackbar.make(view, R.string.unknown_error, Snackbar.LENGTH_SHORT).show();
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.onForeground()
-    }
-
-    override fun onStop() {
-        viewModel.onBackground()
-        super.onStop()
     }
 }

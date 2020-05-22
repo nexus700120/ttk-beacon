@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.get
 import ru.ttk.beacon.R
 import ru.ttk.beacon.domain.entity.AppleBeacon
-import ru.ttk.beacon.ui.utils.viewModelFactory
+import ru.ttk.beacon.ui.utils.lifecycleViewModel
 
 class AppleBeaconBottomSheet : BottomSheetDialogFragment() {
 
@@ -24,9 +23,7 @@ class AppleBeaconBottomSheet : BottomSheetDialogFragment() {
         requireNotNull(arguments?.getParcelable<ParcelableAppleBeacon>(ARG_BEACON)).beacon
     }
 
-    private val viewModel by viewModels<AppleBeaconViewModel> {
-        viewModelFactory { AppleBeaconViewModel(get(), beacon) }
-    }
+    private val viewModel by lifecycleViewModel { AppleBeaconViewModel(get(), beacon) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,16 +53,6 @@ class AppleBeaconBottomSheet : BottomSheetDialogFragment() {
         viewModel.beacon.observe(viewLifecycleOwner) {
             adapter.setBeacon(it.toNullable())
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.onStop()
     }
 
     companion object {

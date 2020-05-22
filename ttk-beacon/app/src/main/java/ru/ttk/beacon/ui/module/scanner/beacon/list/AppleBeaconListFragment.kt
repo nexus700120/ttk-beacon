@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,13 +14,11 @@ import org.koin.android.ext.android.get
 import ru.ttk.beacon.R
 import ru.ttk.beacon.domain.entity.AppleBeacon
 import ru.ttk.beacon.ui.module.scanner.beacon.detail.AppleBeaconBottomSheet
-import ru.ttk.beacon.ui.utils.viewModelFactory
+import ru.ttk.beacon.ui.utils.lifecycleViewModel
 
 class AppleBeaconListFragment : Fragment(R.layout.fragment_apple_beacons) {
 
-    private val viewModel by viewModels<AppleBeaconListViewModel> {
-        viewModelFactory { AppleBeaconListViewModel(get()) }
-    }
+    private val viewModel by lifecycleViewModel { AppleBeaconListViewModel(get()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,15 +47,5 @@ class AppleBeaconListFragment : Fragment(R.layout.fragment_apple_beacons) {
 
     private fun showBottomSheet(beacon: AppleBeacon) {
         AppleBeaconBottomSheet.show(parentFragmentManager, beacon)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.onPause()
     }
 }

@@ -38,10 +38,12 @@ class BleDeviceAdapter : RecyclerView.Adapter<BleDeviceAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        private val nameView = view.findViewById<TextView>(R.id.name)
         private val macView = view.findViewById<TextView>(R.id.mac_value)
         private val rssiView = view.findViewById<TextView>(R.id.rssi_value)
 
         fun bind(device: BleDevice) {
+            nameView.text = device.name ?: itemView.context.getString(R.string.unknown_name)
             macView.text = device.mac
             rssiView.text = formatRssi(device.rssi)
         }
