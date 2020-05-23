@@ -14,10 +14,11 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class BleRawScanner {
 
-    private val leScanner by lazy {
-        BluetoothAdapter.getDefaultAdapter()?.bluetoothLeScanner
+    private val adapter by lazy {
+        BluetoothAdapter.getDefaultAdapter()
             ?: error("Bluetooth not supported by device")
     }
+    private val leScanner by lazy { adapter.bluetoothLeScanner }
 
     private val scanSettings = ScanSettings.Builder()
         .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
@@ -31,7 +32,9 @@ class BleRawScanner {
         Timber.d("Stop scanning")
         isStopScanScheduled.set(false)
         isScannerStarted.set(false)
-        leScanner.stopScan(scanCallback)
+        if (adapter.isEnabled) {
+            leScanner.stopScan(scanCallback)
+        }
     }
 
     private val subject = PublishSubject.create<ScanResult>().toSerialized()
@@ -51,14 +54,14 @@ class BleRawScanner {
 
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             if (BuildConfig.DEBUG) {
-                Timber.d("onScanResult: ${result.device.address}")
+//                Timber.d("onScanResult: ${result.device.address}")
             }
             subject.onNext(result)
         }
 
         override fun onBatchScanResults(results: MutableList<ScanResult>) {
             if (BuildConfig.DEBUG) {
-                Timber.d("onBatchScanResults: ${results.joinToString { it.device.address }}")
+//                Timber.d("onBatchScanResults: ${results.joinToString { it.device.address }}")
             }
             results.forEach { subject.onNext(it) }
         }
@@ -82,10 +85,18 @@ class BleRawScanner {
                 leScanner.startScan(listOf(), scanSettings, scanCallback)
             }
         }.doFinally {
-            if (isScannerStarted.get() && !subject.hasObservers() && !isStopScanScheduled.get()) {
-                Timber.d("Delayed stop scanning")
-                isStopScanScheduled.set(true)
-                handler.postDelayed(stopScanRunnable, STOP_SCAN_DELAY)
+            if (isScannerStarted.get() && !subject.hasObservers()) {
+                if (!adapter.isEnabled) {
+                    Timber.d("Bluetooth disabled scanning stopped automatically")
+                    handler.removeCallbacksAndMessages(null)
+                    isStopScanScheduled.set(false)
+                    isScannerStarted.set(false)
+                    isStopScanScheduled.set(false)
+                } else if (!isStopScanScheduled.get()) {
+                    Timber.d("Delayed stop scanning")
+                    isStopScanScheduled.set(true)
+                    handler.postDelayed(stopScanRunnable, STOP_SCAN_DELAY)
+                }
             }
         }
 
@@ -94,6 +105,6 @@ class BleRawScanner {
     companion object {
         @Suppress("SpellCheckingInspection")
         private const val BUFFER_TIMESPAN = 2L
-        private const val STOP_SCAN_DELAY = 3000L
+        private const val STOP_SCAN_DELAY = 2000L
     }
 }

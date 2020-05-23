@@ -6,9 +6,21 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.koin.android.ext.android.get
+import org.koin.core.qualifier.qualifier
 import ru.ttk.beacon.R
+import ru.ttk.beacon.ui.common.bluetooth.stateobserver.BluetoothStateObserver
+import ru.ttk.beacon.ui.navigation.RouterType
+import ru.ttk.beacon.ui.utils.lifecycleViewModel
 
 class ScannerFragment : Fragment(R.layout.fragment_scanner) {
+
+    private val viewModel by lifecycleViewModel {
+        ScannerViewModel(
+            stateObserver = BluetoothStateObserver(get()),
+            router = get(RouterType.FULL_SCREEN.qualifier)
+        )
+    }
 
     private val pageAndItemId = listOf(
         0 to R.id.devices,
@@ -17,6 +29,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel // init lazy
 
         val pager = view.findViewById<ViewPager>(R.id.pager)
         pager.adapter = ScannerPagerAdapter(childFragmentManager)

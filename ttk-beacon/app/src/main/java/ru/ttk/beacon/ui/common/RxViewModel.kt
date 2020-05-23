@@ -36,6 +36,6 @@ open class RxViewModel : LifecycleViewModel() {
 
     protected fun Disposable.unsubscribeOnPause(): Disposable = apply {
         require(isResumeCalled) { "Method can only be called after onResume" }
-        compositeDisposable.add(this)
+        foregroundDisposable.add(this)
     }
 }
