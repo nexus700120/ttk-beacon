@@ -1,9 +1,11 @@
 package ru.ttk.beacon.ui.module.scanner.beacon.detail
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -11,6 +13,8 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.get
 import ru.ttk.beacon.R
@@ -47,6 +51,7 @@ class AppleBeaconBottomSheet : BottomSheetDialogFragment() {
                     it.supportsChangeAnimations = false
                 }
             }
+            setHasFixedSize(true)
             setAdapter(adapter)
         }
 
@@ -54,6 +59,18 @@ class AppleBeaconBottomSheet : BottomSheetDialogFragment() {
             adapter.setBeacon(it.toNullable())
         }
     }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        super.onCreateDialog(savedInstanceState).apply {
+            setOnShowListener {
+                val bottomSheet = findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+                BottomSheetBehavior.from(bottomSheet).apply {
+                    state = BottomSheetBehavior.STATE_EXPANDED
+                    skipCollapsed = true
+                    peekHeight = Int.MAX_VALUE
+                }
+            }
+        }
 
     companion object {
         private const val ARG_BEACON = "arg_beacon"
