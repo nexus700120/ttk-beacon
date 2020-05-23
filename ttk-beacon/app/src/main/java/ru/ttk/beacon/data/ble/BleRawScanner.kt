@@ -54,14 +54,14 @@ class BleRawScanner {
 
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             if (BuildConfig.DEBUG) {
-//                Timber.d("onScanResult: ${result.device.address}")
+                Timber.d("onScanResult: ${result.device.address}")
             }
             subject.onNext(result)
         }
 
         override fun onBatchScanResults(results: MutableList<ScanResult>) {
             if (BuildConfig.DEBUG) {
-//                Timber.d("onBatchScanResults: ${results.joinToString { it.device.address }}")
+                Timber.d("onBatchScanResults: ${results.joinToString { it.device.address }}")
             }
             results.forEach { subject.onNext(it) }
         }
