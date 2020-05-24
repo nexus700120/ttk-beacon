@@ -32,9 +32,9 @@ class BleRawScanner {
         Timber.d("Stop scanning")
         isStopScanScheduled.set(false)
         isScannerStarted.set(false)
-        if (adapter.isEnabled) {
-            leScanner.stopScan(scanCallback)
-        }
+        // todo check different cases
+        runCatching { leScanner.stopScan(scanCallback) }
+            .onFailure { Timber.e(it) }
     }
 
     private val subject = PublishSubject.create<ScanResult>().toSerialized()
@@ -82,7 +82,8 @@ class BleRawScanner {
             if (!isScannerStarted.get()) {
                 Timber.d("Start scanning")
                 isScannerStarted.set(true)
-                leScanner.startScan(listOf(), scanSettings, scanCallback)
+                runCatching { leScanner.startScan(listOf(), scanSettings, scanCallback) }
+                    .onFailure { Timber.e(it) }
             }
         }.doFinally {
             if (isScannerStarted.get() && !subject.hasObservers()) {

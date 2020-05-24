@@ -17,7 +17,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
 
     private val viewModel by lifecycleViewModel {
         ScannerViewModel(
-            stateObserver = BluetoothStateObserver(get()),
+            stateObserver = get(),
             router = get(RouterType.FULL_SCREEN.qualifier)
         )
     }

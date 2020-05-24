@@ -4,23 +4,30 @@ import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.spyk
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Test
 import org.koin.test.KoinTest
 import org.koin.test.get
 import org.koin.test.mock.declare
+import ru.ttk.beacon.domain.AppleBeaconScanner
+import ru.ttk.beacon.domain.BleDeviceScanner
 import ru.ttk.beacon.ui.AppActivity
+import ru.ttk.beacon.ui.common.bluetooth.BleHelper
 import ru.ttk.beacon.ui.common.bluetooth.stateobserver.BluetoothState
 import ru.ttk.beacon.ui.common.bluetooth.stateobserver.BluetoothStateObserver
 import ru.ttk.beacon.ui.module.bluetooth.BluetoothInteractor
-import ru.ttk.beacon.ui.common.bluetooth.BleHelper
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
@@ -35,6 +42,16 @@ class BluetoothDisabledTest : KoinTest {
                 every { isBluetoothEnabled } returns false
             }
         }
+        declare {
+            mockk<BleDeviceScanner>() {
+                every { scan() } returns PublishSubject.create()
+            }
+        }
+        declare {
+            mockk<AppleBeaconScanner>() {
+                every { scan() } returns PublishSubject.create()
+            }
+        }
     }
 
     @Test
@@ -43,13 +60,25 @@ class BluetoothDisabledTest : KoinTest {
         declare {
             spyk(get<BluetoothStateObserver>()) {
                 every { observe() } returns stateSubject
+                    .observeOn(AndroidSchedulers.mainThread())
             }
         }
         launchActivity<AppActivity>().use {
             onView(withText(R.string.bluetooth_description))
                 .check(matches(isDisplayed()))
             stateSubject.onNext(BluetoothState.ON)
-            TODO("Check beacon list opening")
+            onView(
+                allOf(
+                    isAssignableFrom(BottomNavigationMenuView::class.java),
+                    hasDescendant(withText(R.string.devices))
+                )
+            ).check(matches(isDisplayed()))
+            onView(
+                allOf(
+                    isAssignableFrom(BottomNavigationMenuView::class.java),
+                    hasDescendant(withText(R.string.beacons))
+                )
+            ).check(matches(isDisplayed()))
         }
     }
 
@@ -70,7 +99,26 @@ class BluetoothDisabledTest : KoinTest {
                 .check(matches(isDisplayed()))
             onView(withText(R.string.enabled_bluetooth))
                 .perform(click())
-            TODO("Check beacon list opening")
+            onView(isRoot()).perform(
+                wait(
+                    allOf(
+                        isAssignableFrom(BottomNavigationMenuView::class.java),
+                        isDisplayed()
+                    )
+                )
+            )
+            onView(
+                allOf(
+                    isAssignableFrom(BottomNavigationMenuView::class.java),
+                    hasDescendant(withText(R.string.devices))
+                )
+            ).check(matches(isDisplayed()))
+            onView(
+                allOf(
+                    isAssignableFrom(BottomNavigationMenuView::class.java),
+                    hasDescendant(withText(R.string.beacons))
+                )
+            ).check(matches(isDisplayed()))
         }
     }
 
