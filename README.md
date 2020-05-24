@@ -1,4 +1,6 @@
 # ttk-beacon
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/nexus700120/ttk-beacon)
+
 Задание:
 Работа с iBeacon
 
