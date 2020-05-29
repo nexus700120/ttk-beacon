@@ -1,8 +1,8 @@
 package ru.ttk.beacon.data.beacon.parser
 
 import androidx.annotation.VisibleForTesting
-import java.nio.ByteBuffer
-import java.util.*
+import ru.ttk.beacon.data.beacon.parser.ByteUtils.toUnsignedShortOrNull
+import ru.ttk.beacon.data.beacon.parser.ByteUtils.toUuidStringOrNull
 
 class AppleAdvertisingPacketParser {
 
@@ -35,9 +35,7 @@ class AppleAdvertisingPacketParser {
     fun extractUuid(byteArray: ByteArray): String? {
         if (isRangeInBounds(byteArray, uuidRange)) {
             val uuidBytes = byteArray.sliceArray(uuidRange)
-            val buf = ByteBuffer.wrap(uuidBytes).asLongBuffer()
-            return UUID(buf.get(), buf.get()).toString()
-                .takeUnless { it.isEmpty() }
+            return uuidBytes.toUuidStringOrNull()
         }
         return null
     }
@@ -45,7 +43,7 @@ class AppleAdvertisingPacketParser {
     @VisibleForTesting
     fun extractMajor(byteArray: ByteArray): Int? {
         if (isRangeInBounds(byteArray, majorRange)) {
-            return byteArray.sliceArray(majorRange).toInt()
+            return byteArray.sliceArray(majorRange).toUnsignedShortOrNull()
         }
         return null
     }
@@ -53,7 +51,7 @@ class AppleAdvertisingPacketParser {
     @VisibleForTesting
     fun extractMinor(byteArray: ByteArray): Int? {
         if (isRangeInBounds(byteArray, minorRange)) {
-            return byteArray.sliceArray(minorRange).toInt()
+            return byteArray.sliceArray(minorRange).toUnsignedShortOrNull()
         }
         return null
     }
@@ -65,13 +63,8 @@ class AppleAdvertisingPacketParser {
     private fun isRangeInBounds(byteArray: ByteArray, range: IntRange): Boolean =
         byteArray.isNotEmpty() && range.first <= byteArray.lastIndex && range.last <= byteArray.lastIndex
 
-    private fun ByteArray.toInt(): Int {
-        require(size <= 2) { "max 2 bytes" }
-        return ((first().toInt() and 0xff) shl 8) or (last().toInt() and 0xff)
-    }
-
     companion object {
-        private const val PACKET_LENGTH: Byte = 26.toByte()
+        private const val PACKET_LENGTH: Byte = 0x1A.toByte()
         private const val POWER_INDEX = 26
 
         private val appleManufacturer = byteArrayOf(0x4C, 0x00, 0x02, 0x15)

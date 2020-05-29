@@ -3,9 +3,11 @@ package ru.ttk.beacon.data.beacon
 import io.reactivex.rxjava3.core.Observable
 import ru.ttk.beacon.data.ble.BleRawScanner
 import ru.ttk.beacon.data.beacon.parser.AppleAdvertisingPacketParser
+import ru.ttk.beacon.data.beacon.parser.ByteUtils.toHexStringOrNull
 import ru.ttk.beacon.domain.AppleBeaconScanner
 import ru.ttk.beacon.domain.entity.AppleBeacon
 import ru.ttk.beacon.ui.utils.Optional
+import timber.log.Timber
 
 class AppleBeaconScannerImpl(
     bleRawScanner: BleRawScanner,
@@ -16,6 +18,7 @@ class AppleBeaconScannerImpl(
     private val observable = bleRawScanner.scan()
         .map {
             it.mapNotNull { scanResult ->
+                Timber.d("packet: ${scanResult.scanRecord?.bytes?.toHexStringOrNull(26)}")
                 parser.parse(scanResult.scanRecord?.bytes)?.let { packet ->
                     AppleBeacon(
                         uuid = packet.uuid,
