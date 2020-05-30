@@ -1,6 +1,7 @@
 package ru.ttk.beacon.data.beacon.parser
 
 import androidx.annotation.VisibleForTesting
+import ru.ttk.beacon.data.beacon.parser.ByteUtils.sliceArrayOrNull
 import ru.ttk.beacon.data.beacon.parser.ByteUtils.toUnsignedShortOrNull
 import ru.ttk.beacon.data.beacon.parser.ByteUtils.toUuidStringOrNull
 
@@ -24,44 +25,28 @@ class AppleAdvertisingPacketParser {
         byteArray.firstOrNull() == PACKET_LENGTH
 
     @VisibleForTesting
-    fun isAppleManufacturer(byteArray: ByteArray): Boolean {
-        if (isRangeInBounds(byteArray, manufacturerRange)) {
-            return byteArray.sliceArray(manufacturerRange) contentEquals appleManufacturer
-        }
-        return false
-    }
+    fun isAppleManufacturer(byteArray: ByteArray): Boolean =
+        byteArray.sliceArrayOrNull(manufacturerRange)
+            ?.contentEquals(appleManufacturer) ?: false
 
     @VisibleForTesting
-    fun extractUuid(byteArray: ByteArray): String? {
-        if (isRangeInBounds(byteArray, uuidRange)) {
-            val uuidBytes = byteArray.sliceArray(uuidRange)
-            return uuidBytes.toUuidStringOrNull()
-        }
-        return null
-    }
+    fun extractUuid(byteArray: ByteArray): String? =
+        byteArray.sliceArrayOrNull(uuidRange)
+            ?.toUuidStringOrNull()
 
     @VisibleForTesting
-    fun extractMajor(byteArray: ByteArray): Int? {
-        if (isRangeInBounds(byteArray, majorRange)) {
-            return byteArray.sliceArray(majorRange).toUnsignedShortOrNull()
-        }
-        return null
-    }
+    fun extractMajor(byteArray: ByteArray): Int? =
+        byteArray.sliceArrayOrNull(majorRange)
+            ?.toUnsignedShortOrNull()
 
     @VisibleForTesting
-    fun extractMinor(byteArray: ByteArray): Int? {
-        if (isRangeInBounds(byteArray, minorRange)) {
-            return byteArray.sliceArray(minorRange).toUnsignedShortOrNull()
-        }
-        return null
-    }
+    fun extractMinor(byteArray: ByteArray): Int? =
+        byteArray.sliceArrayOrNull(minorRange)
+            ?.toUnsignedShortOrNull()
 
     @VisibleForTesting
     fun extractPower(byteArray: ByteArray): Int? =
         byteArray.getOrNull(POWER_INDEX)?.toInt()
-
-    private fun isRangeInBounds(byteArray: ByteArray, range: IntRange): Boolean =
-        byteArray.isNotEmpty() && range.first <= byteArray.lastIndex && range.last <= byteArray.lastIndex
 
     companion object {
         private const val PACKET_LENGTH: Byte = 0x1A.toByte()

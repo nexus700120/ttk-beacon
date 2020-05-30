@@ -25,4 +25,11 @@ object ByteUtils {
             .joinToString(prefix = "[", postfix = "]") { "0x$it" }
     }.getOrNull()
 
+    fun ByteArray.sliceArrayOrNull(range: IntRange): ByteArray? = runCatching {
+        if (isEmpty() || (range.first < 0 || range.last > lastIndex)) {
+            null
+        } else {
+            sliceArray(range)
+        }
+    }.getOrNull()
 }
